@@ -1,6 +1,6 @@
 # Meeting Participation Metrics (prototype description)
 
-**Link:** https://github.com/amiryangurazov/meeting-participation-metrics
+**Link:** `https://github.com/YOUR_USERNAME/meeting-participation-metrics` (replace after push; steps in `docs/PUBLISH.md`)
 
 Meeting Participation Metrics is a Cursor-based prototype that helps team leaders improve online meeting equity using recorded transcripts and short leader notes—not video surveillance.
 

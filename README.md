@@ -1,6 +1,6 @@
 # Meeting Participation Metrics
 
-**Prototype link:** https://github.com/amiryangurazov/meeting-participation-metrics *(update after first push if username differs)*
+**Prototype link:** After you push to GitHub, paste your public URL here (see [docs/PUBLISH.md](docs/PUBLISH.md)). Example: `https://github.com/YOUR_USERNAME/meeting-participation-metrics`
 
 A Cursor + Python pipeline that turns **online meeting transcripts** and **leader observation notes** into participation metrics: how much each person spoke, the context of their contributions (AI-coded), and engagement/distraction **risk indicators** (transcript + notes only).
 
