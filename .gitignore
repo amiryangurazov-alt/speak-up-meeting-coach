@@ -1,4 +1,1 @@
-outputs/metrics.json
-outputs/team-report-*.md
 .DS_Store
-__pycache__/

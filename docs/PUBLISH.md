@@ -1,13 +1,9 @@
-# Publish the prototype (GitHub — public link for assignment)
+# Publish the prototype
 
-The project is committed locally. To create the **public link** for your submission:
+## GitHub repo + Pages (public link for submission)
 
-## GitHub (recommended for classmates)
-
-1. Sign in at [github.com/new](https://github.com/new).
-2. Repository name: `meeting-participation-metrics` (public).
-3. Do **not** initialize with README (this repo already has one).
-4. In Terminal, from this folder:
+1. Create a **public** repo on GitHub (or push this folder to an existing repo).
+2. Push `main`:
 
 ```bash
 cd ~/Projects/meeting-participation-metrics
@@ -15,19 +11,25 @@ git remote add origin https://github.com/YOUR_USERNAME/meeting-participation-met
 git push -u origin main
 ```
 
-5. Replace `YOUR_USERNAME` in [README.md](../README.md) and [DESCRIPTION.md](../DESCRIPTION.md) with your GitHub username.
-6. Open the repo in an incognito window to verify the link works.
+3. On GitHub: **Settings → Pages → Build and deployment**
+   - Source: **Deploy from a branch**
+   - Branch: **main** / **/ (root)**
+4. Wait ~1–2 minutes. Your live coach URL:
 
-## Optional: Cursor Origin backup
+   `https://YOUR_USERNAME.github.io/meeting-participation-metrics/`
 
-If you use Cursor-hosted repos:
+5. Update `YOUR_USERNAME` in [README.md](../README.md) and [DESCRIPTION.md](../DESCRIPTION.md).
+
+6. Open the Pages URL in an incognito window and click **Run demo mode** to verify.
+
+## Local preview (before push)
 
 ```bash
-export PATH="$HOME/.local/bin:$PATH"
-origin auth login
-origin repo create meeting-participation-metrics
-# Add the printed clone URL as a second remote, e.g. git remote add cursor-origin <URL>
-git push -u cursor-origin main
+python3 -m http.server 8080
 ```
 
-Origin repos are not public by default; use GitHub for the assignment link unless your instructor accepts Cursor codebase URLs.
+Open http://localhost:8080 — required because the app uses ES modules.
+
+## Rename repo (optional)
+
+You may rename the GitHub repo to `speak-up-meeting-coach`; update the Pages URL in DESCRIPTION accordingly.

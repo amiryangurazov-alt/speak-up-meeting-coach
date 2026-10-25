@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Speak-Up Meeting Coach</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Speak-Up Meeting Coach</h1>
+        <p>
+          Open beside Zoom. Get nudges to contribute and ready-to-say lines from your prep notes.
+        </p>
+      </header>
+
+      <div id="nudgeBanner" hidden>
+        Time to speak up—pick a line below or use your own words.
+      </div>
+
+      <section class="panel" aria-labelledby="setup-heading">
+        <h2 id="setup-heading">Setup</h2>
+        <label for="displayName">Your name (as in Zoom transcript)</label>
+        <input id="displayName" type="text" placeholder="e.g. Riley Nguyen" autocomplete="name" />
+
+        <label for="prepNotes">Prep notes (bullets you might say)</label>
+        <textarea
+          id="prepNotes"
+          placeholder="- One fact you researched&#10;- A question you want to ask&#10;- A task you can offer to own"
+        ></textarea>
+
+        <label for="charterNorm">Team norm (optional)</label>
+        <input
+          id="charterNorm"
+          type="text"
+          placeholder="e.g. We round-robin blockers at the start"
+        />
+
+        <label for="nudgeInterval">Nudge me if I have not spoken (minutes)</label>
+        <input id="nudgeInterval" type="number" min="2" max="30" value="7" />
+      </section>
+
+      <section class="panel" aria-labelledby="live-heading">
+        <h2 id="live-heading">Live session</h2>
+        <div class="status-line">
+          <span>Status: <strong id="sessionStatus">Not started</strong></span>
+          <span id="timerDisplay">—</span>
+        </div>
+        <div class="row">
+          <button type="button" class="btn" id="btnStart">Start meeting</button>
+          <button type="button" class="btn secondary" id="btnPause">Pause</button>
+          <button type="button" class="btn secondary" id="btnSpoke">I spoke</button>
+        </div>
+
+        <label for="currentTopic">What are they discussing now?</label>
+        <input id="currentTopic" type="text" placeholder="e.g. slide assignments" />
+
+        <label for="transcriptChunk">Paste last ~2 min of live transcript (optional)</label>
+        <p class="hint">Zoom: Show captions → copy recent lines. Then click Check transcript.</p>
+        <textarea id="transcriptChunk" rows="4" placeholder="Jordan Lee: ...&#10;Sam Ortiz: ..."></textarea>
+        <div class="row">
+          <button type="button" class="btn secondary" id="btnCheckTranscript">Check transcript</button>
+          <button type="button" class="btn secondary" id="btnRefreshSuggest">Refresh suggestions</button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="suggest-heading">
+        <h2 id="suggest-heading">Suggested lines</h2>
+        <ul id="suggestionsList"></ul>
+        <button type="button" class="btn secondary" id="btnCopyAi">
+          Copy AI prompt (Cursor / ChatGPT)
+        </button>
+      </section>
+
+      <section class="panel" aria-labelledby="demo-heading">
+        <h2 id="demo-heading">Try demo</h2>
+        <p class="hint">For graders: loads sample prep and simulates an overdue nudge.</p>
+        <div class="row">
+          <button type="button" class="btn secondary" id="btnLoadDemoPrep">Load demo prep</button>
+          <button type="button" class="btn danger-outline" id="btnDemo">Run demo mode</button>
+        </div>
+      </section>
+    </div>
+
+    <div id="toast" hidden aria-live="polite"></div>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

@@ -1,77 +1,69 @@
-# Meeting Participation Metrics
+# Speak-Up Meeting Coach
 
-**Prototype link:** After you push to GitHub, paste your public URL here (see [docs/PUBLISH.md](docs/PUBLISH.md)). Example: `https://github.com/YOUR_USERNAME/meeting-participation-metrics`
+**Live prototype:** open `index.html` beside Zoom for nudges and suggested contribution lines.
 
-A Cursor + Python pipeline that turns **online meeting transcripts** and **leader observation notes** into participation metrics: how much each person spoke, the context of their contributions (AI-coded), and engagement/distraction **risk indicators** (transcript + notes only).
+**Public link (after GitHub Pages):** `https://YOUR_USERNAME.github.io/meeting-participation-metrics/`
 
-Built for team leaders who want data-informed facilitation—not surveillance.
+A browser coach for teammates who struggle to **speak up in online meetings**. It reminds you to contribute on a timer, checks optional pasted transcript chunks for your name, and generates **ready-to-say lines** from your prep notes and the current topic.
 
-## Quick start (another team leader)
+## Quick start
 
-### 1. Prepare inputs
+### Option A — GitHub Pages (recommended for sharing)
 
-| File | Required | What to do |
-|------|----------|------------|
-| `inputs/meeting.vtt` or `.txt` | Yes | Record your Zoom/Teams meeting. Export **transcript** (VTT preferred) or plain text as `Speaker Name: utterance` per line. |
-| `inputs/leader-notes.md` | Yes | Copy the template in that file; fill attendance, late joins, camera, observed distraction (2 minutes post-meeting). |
-| `inputs/breakout-session-notes.md` | No | Paste Breakout Group Balance / rubric snippets to compare simulation vs live meeting. |
-| `inputs/team-charter.md` | No | Your norms and decision rules for coaching section. |
-| `inputs/peer-assessments.md` | No | Aggregated peer review scores if available. |
+1. Push this repo to GitHub (see [docs/PUBLISH.md](docs/PUBLISH.md)).
+2. Enable **Pages** → source **main** → folder **/ (root)**.
+3. Open the Pages URL on a laptop beside your video call.
 
-**Privacy:** Use pseudonyms in shared repos. Keep real names in local copies only.
+### Option B — Local
 
-### 2. Compute volume metrics (local)
+ES modules require a local server (not `file://`):
 
 ```bash
-python3 scripts/meeting_metrics.py inputs/meeting.vtt -o outputs/metrics.json
+cd ~/Projects/meeting-participation-metrics
+python3 -m http.server 8080
 ```
 
-Outputs JSON: talk share %, turns, monologue length, **team_balance_score** (0–1, higher = more even). See [docs/METRICS.md](docs/METRICS.md).
+Open http://localhost:8080
 
-### 3. Generate the full report (Cursor Agent)
+### First use
 
-1. Open this folder in [Cursor](https://cursor.com).
-2. Start **Agent** chat.
-3. Attach `@prompts/analyze-meeting.md`, `@outputs/metrics.json`, transcript, and `leader-notes.md`.
-4. Send the prompt block from that file.
-5. Save the result to `outputs/team-report-YYYY-MM-DD.md`. Share **individual metric cards** privately with each member.
+1. Fill **Setup** (name, prep bullets, nudge interval).
+2. Click **Start meeting** → allow notifications.
+3. Use **I spoke**, **Refresh suggestions**, and **Check transcript** during the call.
 
-**No Cursor?** Paste the same files and the prompt from `prompts/analyze-meeting.md` into ChatGPT or Claude.
+Full steps: [docs/USAGE.md](docs/USAGE.md)
 
-### 4. Demo without your data
+## Try without a meeting
 
-```bash
-python3 scripts/meeting_metrics.py inputs/meeting-demo.vtt -o outputs/metrics-demo.json
-```
+- **Load demo prep** — sample student-team notes ([inputs/demo-prep.md](inputs/demo-prep.md))
+- **Run demo mode** — simulates overdue nudge + transcript without your name
 
-Compare your output to [outputs/sample-report.md](outputs/sample-report.md).
+## Optional course inputs
 
-## Metric families
+Paste into prep notes or charter field:
 
-1. **Volume** — script-computed from word counts (objective).
-2. **Contribution context** — agent classifies turns (task, process, questions, off-topic) and substantive depth 0–4.
-3. **Engagement / distraction risk** — agent merges minimal replies, repetition requests, off-topic speech with leader notes; always cites evidence.
+- [inputs/breakout-session-notes.md](inputs/breakout-session-notes.md) — self-reflection from Breakout Learning
+- [inputs/team-charter.md](inputs/team-charter.md) — norms (e.g. round-robin)
+- [inputs/peer-assessments.md](inputs/peer-assessments.md) — reminders of how others experience your participation
 
-## Exporting transcripts
+## How it works
 
-- **Zoom:** Record to cloud or local → Transcripts → VTT download.
-- **Teams:** Transcript in meeting recap → save as `.vtt` or copy to `Speaker:` text format.
+| Layer | Behavior |
+|-------|----------|
+| **Timer** | Nudges if you have not clicked “I spoke” within N minutes |
+| **Transcript check** | Parses `Name: line` paste; if your name is absent, escalates nudge |
+| **Suggestions** | Rule-based lines from prep + topic (question, build, offer, summary) |
+| **AI optional** | Copies a structured prompt for Cursor/ChatGPT—no API key in the app |
 
-## Repository layout
+## Assignment write-up
 
-```
-inputs/          Your meeting files (demo included)
-scripts/         meeting_metrics.py
-prompts/         analyze-meeting.md (agent instructions)
-outputs/         metrics JSON + reports (demo samples committed)
-docs/METRICS.md  Formal definitions
-.cursor/rules/   Rubric for consistent agent output
-```
+See [DESCRIPTION.md](DESCRIPTION.md) (≤300 words) for goals and class-based rationale.
 
-## Assignment description
+## Limits
 
-See [DESCRIPTION.md](DESCRIPTION.md) (≤300 words) for goals and class-based rationale to submit with the prototype.
+- No Zoom/Teams API—manual transcript paste only.
+- Supports **individual** speak-up; does not replace facilitator inclusion practices.
 
 ## License
 
-MIT — use and adapt for course teams.
+MIT
