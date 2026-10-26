@@ -1,15 +1,13 @@
 # Speak-Up Meeting Coach (prototype description)
 
-**Link:** `https://YOUR_USERNAME.github.io/meeting-participation-metrics/` (enable GitHub Pages on this repo; see `docs/PUBLISH.md`)
+**Link:** `https://YOUR_USERNAME.github.io/meeting-participation-metrics/` (enable GitHub Pages; see `docs/PUBLISH.md`)
 
-**Goal:** Help teammates who struggle to speak in online meetings through **live nudges** and **concrete lines they can say**, using their own prep—not post-meeting analytics.
+**Goal:** Help teammates who struggle to speak in online meetings through **timed nudges**, **ready-to-say lines from their own prep**, and **feedback after they contribute**—behavior change in the meeting, not a post-hoc dashboard.
 
-**Problem:** Uneven participation hurts team learning and ownership; quiet members often have useful prep but miss windows to talk. Psychological safety (Edmondson) requires low-risk ways to enter the conversation; structured prompts reduce the cognitive barrier to “jump in.”
+**Problem:** Uneven airtime reduces shared understanding and ownership. Quiet members often have useful prep but miss windows to talk. Psychological safety (Edmondson) needs low-risk entry points; structured prompts lower the cost of jumping in. Breakout Learning’s Group Balance and discussion-quality rubrics show that **volume and substance both matter**—so this coach scores what you said against prep, not just whether you talked.
 
-**Prototype:** A static web page (`index.html`) opened beside Zoom. Inputs: display name, prep bullets, current topic, optional pasted live-transcript chunk, optional team norm from a charter. During the call, a timer reminds the user to contribute if they have not marked “I spoke.” Pasting transcript text checks whether their name appears; if not, the coach escalates a banner/notification and refreshes suggestions. A rule-based engine proposes varied lines (question, build-on, offer, summary) ranked by overlap between prep and topic; “Copy AI prompt” sends context to Cursor or ChatGPT for richer wording without embedding API keys.
+**Prototype:** A static page opened beside Zoom. Setup: name, prep bullets, optional charter norm, nudge interval. Live: a timer resets when you click **I spoke**, log a line, or use the optional microphone (Chrome/Edge). If you stay quiet, a banner and suggested lines appear (question, build, offer, summary). Optional clipboard tracking of Zoom captions checks whether your name appears. **Copy AI prompt** sends context to Cursor or ChatGPT—no API key required.
 
-**Class ties:** Complements Breakout Learning feedback on engagement and airtime by supporting **behavior change in real time**; charter norms (e.g. round-robin) personalize lines. Distinct from leader dashboards—this coaches the **individual** between facilitator structures.
+**For other leaders:** Run `python3 -m http.server 8080` or enable Pages. Follow `docs/USAGE.md`. Click **Run demo** to see nudges, a caption feed, and changing feedback without a real call.
 
-**For other users:** Clone repo, enable Pages or run `python3 -m http.server`, follow `docs/USAGE.md`. Use **Run demo mode** to evaluate without a live meeting.
-
-**Limits:** Manual transcript copy only; not surveillance; facilitator inclusion practices remain essential.
+**Limits:** No Zoom API; mic is optional; this supports the individual between facilitator structures (round-robin, timeboxes), it does not replace them.

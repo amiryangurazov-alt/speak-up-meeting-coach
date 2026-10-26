@@ -11,20 +11,21 @@ export function parsePrepBullets(text) {
     .filter((line) => line.length > 3);
 }
 
-/**
- * @param {string} topic
- * @param {string} bullet
- */
-function topicOverlap(topic, bullet) {
+function topicMap(topic, bullet) {
   const t = topic.toLowerCase().split(/\W+/).filter((w) => w.length > 3);
   const b = bullet.toLowerCase();
   if (!t.length) return 0;
   return t.filter((w) => b.includes(w)).length;
 }
 
+function clip(text, max = 90) {
+  const t = text.trim();
+  if (t.length <= max) return t;
+  return `${t.slice(0, max - 1)}…`;
+}
+
 /**
  * @param {object} opts
- * @param {string} opts.displayName
  * @param {string[]} opts.prepBullets
  * @param {string} opts.currentTopic
  * @param {string} [opts.charterNorm]
@@ -33,49 +34,47 @@ function topicOverlap(topic, bullet) {
  * @returns {{ type: SuggestionType, line: string, score: number }[]}
  */
 export function generateSuggestions(opts) {
-  const topic = (opts.currentTopic || "this topic").trim();
+  const topic = (opts.currentTopic || "this decision").trim();
   const bullets = opts.prepBullets.length
     ? opts.prepBullets
     : ["a concrete example from our project", "one risk we should name"];
-  const ranked = [...bullets].sort(
-    (a, b) => topicOverlap(topic, b) - topicOverlap(topic, a)
-  );
-  const best = ranked[0];
-  const second = ranked[1] || ranked[0];
+  const ranked = [...bullets].sort((a, b) => topicMap(topic, b) - topicMap(topic, a));
+  const best = clip(ranked[0]);
+  const second = clip(ranked[1] || ranked[0]);
 
   /** @type {{ type: SuggestionType, line: string, score: number }[]} */
   const raw = [
     {
       type: "question",
-      line: `Can we clarify what we mean by "${topic}" before we decide?`,
+      line: `Can we pause on “${topic}” for a second—what would change our decision?`,
       score: 3 + (opts.urgent ? 2 : 0),
     },
     {
       type: "build",
-      line: `Building on that—I'd add ${best}, because it affects how we present this.`,
-      score: 4 + topicOverlap(topic, best),
+      line: `Building on that: ${best}. That should shape how we present this.`,
+      score: 4 + topicMap(topic, best),
     },
     {
       type: "summarize",
-      line: `If it's helpful, I can summarize: we're aligned on ${topic}, and the open piece is ${second}.`,
-      score: 2 + topicOverlap(topic, second),
+      line: `Quick recap: we are on ${topic}. The open piece I see is ${second}.`,
+      score: 2 + topicMap(topic, second),
     },
     {
       type: "offer",
-      line: `I can take a small piece on ${second} from my prep notes if that unblocks us.`,
+      line: `I can take ${second} and bring a draft back this week.`,
       score: 3,
     },
     {
       type: "challenge",
-      line: `One gentle pushback on ${topic}: have we checked ${best}?`,
-      score: 1 + topicOverlap(topic, best),
+      line: `One check on ${topic}: have we accounted for ${best}?`,
+      score: 1 + topicMap(topic, best),
     },
   ];
 
   if (opts.charterNorm && /round.?robin|go around|each person/i.test(opts.charterNorm)) {
     raw.push({
       type: "summarize",
-      line: `When we round-robin, my update on ${topic} is: ${best}.`,
+      line: `For the round-robin: my update on ${topic} is ${best}.`,
       score: 5,
     });
   }
@@ -83,12 +82,16 @@ export function generateSuggestions(opts) {
   if (opts.urgent) {
     raw.push({
       type: "build",
-      line: `Jumping in—I haven't spoken in a while; on ${topic}, ${best}.`,
+      line: `I have not spoken in a bit. On ${topic}: ${best}.`,
       score: 6,
     });
   }
 
-  const filtered = raw.filter((r) => !opts.shownLines.has(r.line));
+  let filtered = raw.filter((r) => !opts.shownLines.has(r.line));
+  if (!filtered.length) {
+    opts.shownLines.clear();
+    filtered = raw;
+  }
   filtered.sort((a, b) => b.score - a.score);
   return filtered.slice(0, 4);
 }
@@ -104,6 +107,7 @@ export function buildAiPrompt(ctx) {
     transcriptChunk,
     charterNorm,
     nudgeReason,
+    mySpeechLog,
   } = ctx;
   return `# Speak-up coach — generate 4 short lines I can say aloud
 
@@ -117,6 +121,9 @@ ${prepNotes || "(none)"}
 **Team norm (optional):** ${charterNorm || "(none)"}
 
 **Why I need help now:** ${nudgeReason || "timer nudge"}
+
+**What I have already said:**
+${mySpeechLog || "(none yet)"}
 
 **Recent transcript (optional):**
 ${transcriptChunk || "(none)"}

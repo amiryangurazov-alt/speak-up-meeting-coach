@@ -1,30 +1,34 @@
-# Using Speak-Up Meeting Coach during a real call
+# Using Speak-Up Meeting Coach
 
-## Before the meeting (5 minutes)
+## Before the meeting (~5 minutes)
 
-1. Open [index.html](../index.html) in Chrome or Edge (use GitHub Pages or a local server—see README).
-2. Enter your **Zoom display name** exactly as it appears in live transcript.
-3. Paste **prep bullets**: facts, questions, and tasks you are willing to say aloud.
-4. Optional: paste a team norm from your charter (e.g. round-robin).
-5. Set **nudge interval** (default 7 minutes).
+1. Open the page in **Chrome or Edge** at `http://localhost:8080` or your GitHub Pages URL.
+2. In **Setup**, enter your **Zoom display name** and **prep bullets** (facts, questions, tasks you can say).
+3. Optional: add a team norm (e.g. round-robin) and set the nudge interval (default 7 minutes).
 
 ## During the meeting
 
-1. Click **Start meeting** and allow **notifications** when prompted.
-2. Snap the window beside Zoom on a second monitor or narrow strip on laptop.
-3. When the topic shifts, update **What are they discussing now?**—suggestions refresh from your prep.
-4. After you speak, click **I spoke** to reset the timer.
-5. Every few minutes, copy **live transcript** lines from Zoom into the paste box → **Check transcript**. If your name is missing, the coach nudges you and shows new lines.
-6. Click **Copy line** on any suggestion, paste into Zoom chat first if you need a script, then say it aloud.
+1. Click **Start meeting**. Allow notifications if you want desktop alerts.
+2. Keep the window beside Zoom. Update **What are they discussing now?** when the topic shifts.
+3. After you speak, do one of:
+   - **I spoke** — resets the timer
+   - Type the line → **Log + feedback** — timer + coaching card
+   - **Copy** a suggested line, say it, then **I said this**
+   - **Start listening** — optional mic transcription (headphones recommended)
+4. If you stay quiet, a **nudge** appears once with fresh lines. Speak or log to clear it.
 
-## Optional AI boost
+## Optional caption tracking
 
-Click **Copy AI prompt** and paste into Cursor or ChatGPT for four customized lines using your prep and transcript.
+Open **Zoom caption tracking**, turn on **Watch clipboard**, and periodically copy Zoom live captions. If your name is missing, the coach nudges you.
 
-## After the meeting
+## Optional AI
 
-Click **Pause**. Your prep stays in browser storage for the next session.
+**Copy AI prompt** → paste into Cursor or ChatGPT for four custom lines using your prep and what you already said.
 
-## Demo for classmates
+## Demo (for classmates / graders)
 
-Click **Run demo mode** to see an overdue nudge and transcript check without a live call.
+**Load demo prep** or **Run demo** — sample prep, a caption feed without your name, a quiet-nudge, and three sample contributions so feedback **changes** each time.
+
+## After
+
+**Pause**. Prep stays in the browser for next time.
